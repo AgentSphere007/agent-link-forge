@@ -75,27 +75,27 @@ const CreateAgent = () => {
       createdAt: new Date().toISOString(),
     };
 
-    //   try {
-    //     const response = await fetch("http://localhost:5000/api/agents", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(newAgent),
-    //     });
+    try {
+      const response = await fetch("http://localhost:5000/api/repo/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newAgent),
+      });
 
-    //     if (!response.ok) {
-    //       throw new Error(`HTTP error! status: ${response.status}`);
-    //     }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-    //     toast.success("Agent created successfully!");
-    //     navigate("/developer/dashboard");
-    //   } catch (error) {
-    //     console.error("Error creating agent:", error);
-    //     toast.error("Failed to create agent. Please try again.");
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
+      toast.success("Agent created successfully!");
+      navigate("/developer/dashboard");
+    } catch (error) {
+      console.error("Error creating agent:", error);
+      toast.error("Failed to create agent. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {

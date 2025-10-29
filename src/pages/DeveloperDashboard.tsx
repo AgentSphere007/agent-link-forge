@@ -31,15 +31,18 @@ const DeveloperDashboard = () => {
   const [devAgents, setDevAgents] = useState([]);
 
   useEffect(() => {
-    const devId = "something here";
+    const devName = "something here";
     const fillAgents = async () => {
       try {
-        const response = await fetch("http://localhost:5173/api/agents", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "http://localhost:5173/api/repo/" + devName,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

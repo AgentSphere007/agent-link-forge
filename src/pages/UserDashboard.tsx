@@ -19,11 +19,13 @@ const UserDashboard = () => {
 
   // Load installed agents
   useEffect(() => {
-    const savedAgents = JSON.parse(localStorage.getItem('installedAgents') || '[]');
+    const savedAgents = JSON.parse(
+      localStorage.getItem("installedAgents") || "[]"
+    );
     setInstalledAgents(savedAgents);
     const fillAgents = async () => {
       try {
-        const response = await fetch("http://localhost:5173/api/agents", {
+        const response = await fetch("http://localhost:5173/api/repo/all", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -57,22 +59,40 @@ const UserDashboard = () => {
     setIsModalOpen(true);
   };
 
-  const handleActivateAgent = (agent: Agent) => {
+  const handleActivateAgent = async (agent: Agent) => {
     const alreadyInstalled = installedAgents.some((a) => a.id === agent.id);
+    try {
+      const response = await fetch("http://localhost:5173/api/agents", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error fetching agents:", error);
+    }
     if (alreadyInstalled) {
       toast.warning(`"${agent.name}" is already installed.`);
       return;
     }
-
     const updated = [...installedAgents, agent];
     setInstalledAgents(updated);
-    localStorage.setItem('installedAgents', JSON.stringify(updated));
+    localStorage.setItem("installedAgents", JSON.stringify(updated));
     toast.success(`"${agent.name}" added to Installed Agents!`);
     setIsModalOpen(false);
   };
 
   return (
-    <div style={{ backgroundColor: '#0b1120', minHeight: '100vh' }} className="text-slate-100">
+    <div
+      style={{ backgroundColor: "#0b1120", minHeight: "100vh" }}
+      className="text-slate-100"
+    >
       {/* Header */}
       <header
         style={{ backgroundColor: "rgba(9, 15, 30, 0.9)" }}
@@ -98,7 +118,7 @@ const UserDashboard = () => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => navigate('/installed-agents')}
+                onClick={() => navigate("/installed-agents")}
                 className="bg-[#111524]/60 border border-slate-700 text-slate-100 hover:bg-cyan-500/10 rounded-lg"
               >
                 View Installed Agents
@@ -107,7 +127,7 @@ const UserDashboard = () => {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 className="bg-[#111524]/60 border border-slate-700 text-slate-100 hover:bg-cyan-500/10 rounded-lg"
               >
                 <Home className="h-5 w-5" />
@@ -128,7 +148,10 @@ const UserDashboard = () => {
               placeholder="Search agents by name, description, or tags..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ backgroundColor: 'rgba(15,23,42,0.6)', color: '#E6EEF3' }}
+              style={{
+                backgroundColor: "rgba(15,23,42,0.6)",
+                color: "#E6EEF3",
+              }}
               className="pl-10 border border-[#1f2937] placeholder:text-slate-400 focus:border-[#2dd4bf] focus:ring-0"
             />
           </div>
