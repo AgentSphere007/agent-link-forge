@@ -1,7 +1,13 @@
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { User, Code } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { User, Code } from "lucide-react";
 
 const ModeSelect = () => {
   const navigate = useNavigate();
@@ -23,7 +29,9 @@ const ModeSelect = () => {
               <div className="w-24 h-24 bg-gradient-to-tr from-cyan-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_10px_40px_-15px_rgba(56,189,248,0.45)]">
                 <User className="w-12 h-12 text-white" />
               </div>
-              <CardTitle className="text-2xl text-cyan-300">User Mode</CardTitle>
+              <CardTitle className="text-2xl text-cyan-300">
+                User Mode
+              </CardTitle>
               <CardDescription className="text-base text-slate-300">
                 Discover and activate agents to enhance your workflow
               </CardDescription>
@@ -37,7 +45,7 @@ const ModeSelect = () => {
               </ul>
               <Button
                 className="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:shadow-[0_15px_50px_-20px_rgba(56,189,248,0.35)] transition-all"
-                onClick={() => navigate('/user/dashboard')}
+                onClick={() => navigate("/user/dashboard")}
               >
                 Enter User Mode
               </Button>
@@ -50,7 +58,9 @@ const ModeSelect = () => {
               <div className="w-24 h-24 bg-gradient-to-tr from-indigo-600 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_10px_40px_-15px_rgba(99,102,241,0.40)]">
                 <Code className="w-12 h-12 text-white" />
               </div>
-              <CardTitle className="text-2xl text-indigo-300">Developer Mode</CardTitle>
+              <CardTitle className="text-2xl text-indigo-300">
+                Developer Mode
+              </CardTitle>
               <CardDescription className="text-base text-slate-300">
                 Create and manage your own intelligent agents
               </CardDescription>
@@ -64,7 +74,7 @@ const ModeSelect = () => {
               </ul>
               <Button
                 className="w-full bg-gradient-to-r from-indigo-600 to-purple-500 hover:shadow-[0_15px_50px_-20px_rgba(99,102,241,0.35)] transition-all"
-                onClick={() => navigate('/developer/dashboard')}
+                onClick={() => navigate("/developer/dashboard")}
               >
                 Enter Developer Mode
               </Button>

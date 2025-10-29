@@ -1,12 +1,18 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { mockAgents } from '@/data/mockAgents';
-import { Agent } from '@/types/agent';
-import { Plus, Home, ArrowLeft, Edit, Trash2, BarChart3 } from 'lucide-react';
-import { toast } from 'sonner';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { mockAgents } from "@/data/mockAgents";
+import { Agent } from "@/types/agent";
+import { Plus, Home, ArrowLeft, Edit, Trash2, BarChart3 } from "lucide-react";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,16 +22,41 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
 const DeveloperDashboard = () => {
   const navigate = useNavigate();
   const [agents, setAgents] = useState<Agent[]>(mockAgents.slice(0, 3));
   const [deleteAgentId, setDeleteAgentId] = useState<string | null>(null);
+  const [devAgents, setDevAgents] = useState([]);
+
+  useEffect(() => {
+    const devId = "something here";
+    const fillAgents = async () => {
+      try {
+        const response = await fetch("http://localhost:5173/api/agents", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setAgents(data);
+      } catch (error) {
+        console.error("Error fetching agents:", error);
+      }
+    };
+    fillAgents();
+  }, []);
 
   const handleDeleteAgent = (agentId: string) => {
-    setAgents(agents.filter(agent => agent.id !== agentId));
-    toast.success('Agent deleted successfully');
+    setAgents(agents.filter((agent) => agent.id !== agentId));
+    toast.success("Agent deleted successfully");
     setDeleteAgentId(null);
   };
 
@@ -43,17 +74,19 @@ const DeveloperDashboard = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => navigate('/mode-select')}
+                onClick={() => navigate("/mode-select")}
                 className="bg-slate-800/70 hover:bg-cyan-500/30 text-cyan-300 rounded-lg transition-all"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
-              <h1 className="text-2xl font-bold text-cyan-300">Developer Dashboard</h1>
+              <h1 className="text-2xl font-bold text-cyan-300">
+                Developer Dashboard
+              </h1>
             </div>
             <div className="flex gap-2">
               <Button
                 className="bg-gradient-to-r from-blue-700 to-cyan-400 hover:shadow-[0_0_20px_4px_rgba(0,255,255,0.5)] text-white transition-all"
-                onClick={() => navigate('/developer/create')}
+                onClick={() => navigate("/developer/create")}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Create Agent
@@ -61,7 +94,7 @@ const DeveloperDashboard = () => {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 className="bg-slate-800/70 border border-slate-700 hover:bg-cyan-500/20 text-cyan-300 rounded-lg transition-all"
               >
                 <Home className="h-5 w-5" />
@@ -81,7 +114,9 @@ const DeveloperDashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{agents.length}</div>
+              <div className="text-3xl font-bold text-white">
+                {agents.length}
+              </div>
             </CardContent>
           </Card>
 
@@ -93,7 +128,9 @@ const DeveloperDashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-white">
-                {agents.reduce((sum, agent) => sum + agent.usageCount, 0).toLocaleString()}
+                {agents
+                  .reduce((sum, agent) => sum + agent.usageCount, 0)
+                  .toLocaleString()}
               </div>
             </CardContent>
           </Card>
@@ -106,7 +143,10 @@ const DeveloperDashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-white">
-                {(agents.reduce((sum, agent) => sum + agent.rating, 0) / agents.length).toFixed(1)}
+                {(
+                  agents.reduce((sum, agent) => sum + agent.rating, 0) /
+                  agents.length
+                ).toFixed(1)}
               </div>
             </CardContent>
           </Card>
@@ -123,14 +163,14 @@ const DeveloperDashboard = () => {
               </CardDescription>
               <Button
                 className="bg-gradient-to-r from-blue-700 to-cyan-400 hover:shadow-[0_0_20px_4px_rgba(0,255,255,0.5)] text-white transition-all"
-                onClick={() => navigate('/developer/create')}
+                onClick={() => navigate("/developer/create")}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Create Your First Agent
               </Button>
             </Card>
           ) : (
-            agents.map(agent => (
+            agents.map((agent) => (
               <Card
                 key={agent.id}
                 className="bg-slate-900/70 border border-cyan-400/20 shadow-[0_0_20px_rgba(0,255,255,0.1)] hover:shadow-[0_0_25px_rgba(0,255,255,0.3)] transition-all duration-300 backdrop-blur-sm"
@@ -140,7 +180,9 @@ const DeveloperDashboard = () => {
                     <div className="flex items-start gap-4">
                       <div className="text-4xl">{agent.icon}</div>
                       <div>
-                        <CardTitle className="text-xl mb-2 text-white">{agent.name}</CardTitle>
+                        <CardTitle className="text-xl mb-2 text-white">
+                          {agent.name}
+                        </CardTitle>
                         <CardDescription className="text-base text-slate-300">
                           {agent.shortDescription}
                         </CardDescription>
@@ -148,8 +190,11 @@ const DeveloperDashboard = () => {
                           <Badge className="bg-cyan-500/80 text-white border-none">
                             {agent.category}
                           </Badge>
-                          {agent.tags.slice(0, 2).map(tag => (
-                            <Badge key={tag} className="border border-cyan-400/30 text-cyan-300">
+                          {agent.tags.slice(0, 2).map((tag) => (
+                            <Badge
+                              key={tag}
+                              className="border border-cyan-400/30 text-cyan-300"
+                            >
                               {tag}
                             </Badge>
                           ))}
@@ -189,7 +234,9 @@ const DeveloperDashboard = () => {
                       <span>{agent.usageCount.toLocaleString()} users</span>
                     </div>
                     <div>Rating: {agent.rating}/5.0</div>
-                    <div>Created {new Date(agent.createdAt).toLocaleDateString()}</div>
+                    <div>
+                      Created {new Date(agent.createdAt).toLocaleDateString()}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -199,13 +246,16 @@ const DeveloperDashboard = () => {
       </div>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={deleteAgentId !== null} onOpenChange={() => setDeleteAgentId(null)}>
+      <AlertDialog
+        open={deleteAgentId !== null}
+        onOpenChange={() => setDeleteAgentId(null)}
+      >
         <AlertDialogContent className="bg-slate-900 border border-rose-500/30 text-white">
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription className="text-slate-300">
-              This action cannot be undone. This will permanently delete your agent
-              and remove all associated data.
+              This action cannot be undone. This will permanently delete your
+              agent and remove all associated data.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
