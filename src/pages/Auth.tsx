@@ -33,7 +33,7 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://10.52.221.162:8000/api/auth/login", {
+      const response = await fetch("http://172.16.46.46:8000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,6 +51,7 @@ const Auth = () => {
       const data = await response.json();
       console.log("Login response:", data);
       localStorage.setItem("token", data.token);
+      localStorage.setItem("username", loginEmail);
 
       toast.success("Login successful!");
       window.location.reload();
@@ -68,21 +69,18 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        "http://10.52.221.162:8000/api/auth/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: signupName,
-            username: signupUsername,
-            email: signupEmail,
-            password: signupPassword,
-          }),
-        }
-      );
+      const response = await fetch("http://172.16.46.46:8000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: signupName,
+          username: signupUsername,
+          email: signupEmail,
+          password: signupPassword,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -91,6 +89,7 @@ const Auth = () => {
       const data = await response.json();
       console.log("Signup response:", data);
       localStorage.setItem("token", data.token);
+      localStorage.setItem("username", signupUsername);
       toast.success("Account created successfully!");
       window.location.reload();
       // navigate("/mode-select");

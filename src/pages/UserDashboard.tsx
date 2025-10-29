@@ -16,6 +16,7 @@ const UserDashboard = () => {
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [installedAgents, setInstalledAgents] = useState<Agent[]>([]);
+  const [actualAgent, setAcutalAgent] = useState<Agent[]>([]);
 
   // Load installed agents
   useEffect(() => {
@@ -25,7 +26,7 @@ const UserDashboard = () => {
     setInstalledAgents(savedAgents);
     const fillAgents = async () => {
       try {
-        const response = await fetch("http://localhost:5173/api/repo/all", {
+        const response = await fetch("http://172.16.46.46:8000/api/repo/all", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -37,7 +38,7 @@ const UserDashboard = () => {
         }
 
         const data = await response.json();
-        // setAgents(data);
+        setAcutalAgent(data);
       } catch (error) {
         console.error("Error fetching agents:", error);
       }
@@ -45,13 +46,8 @@ const UserDashboard = () => {
     fillAgents();
   }, []);
 
-  const filteredAgents = mockAgents.filter(
-    (agent) =>
-      agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      agent.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      agent.tags.some((tag) =>
-        tag.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+  const filteredAgents = mockAgents.filter((agent) =>
+    agent.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleAgentClick = (agent: Agent) => {

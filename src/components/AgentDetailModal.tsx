@@ -31,9 +31,9 @@ export const AgentDetailModal = ({
         <DialogHeader>
           <div className="flex items-start gap-4">
             {/* Icon circle */}
-            <div className="flex-shrink-0 w-20 h-20 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white shadow-[0_12px_40px_-18px_rgba(34,211,238,0.35)] text-4xl">
+            {/* <div className="flex-shrink-0 w-20 h-20 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white shadow-[0_12px_40px_-18px_rgba(34,211,238,0.35)] text-4xl">
               {agent.icon}
-            </div>
+            </div> */}
 
             <div className="flex-1">
               <DialogTitle className="text-2xl mb-1 text-white">
@@ -76,22 +76,22 @@ export const AgentDetailModal = ({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-sm">
+            {/* <div className="flex items-center gap-2 text-sm">
               <Tag className="w-4 h-4 text-slate-300" />
               <Badge className="bg-cyan-500/80 text-white border-none">
                 {agent.category}
               </Badge>
-            </div>
+            </div> */}
           </div>
 
           <div>
             <h3 className="font-semibold text-white mb-2">About this Agent</h3>
             <p className="text-slate-300 leading-relaxed">
-              {agent.description}
+              {agent.shortDescription}
             </p>
           </div>
 
-          <div>
+          {/* <div>
             <h3 className="font-semibold text-white mb-2">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {agent.tags.map((tag) => (
@@ -103,7 +103,7 @@ export const AgentDetailModal = ({
                 </Badge>
               ))}
             </div>
-          </div>
+          </div> */}
 
           <div className="pt-4 border-t border-slate-700/40">
             <p className="text-sm text-slate-300 mb-4">

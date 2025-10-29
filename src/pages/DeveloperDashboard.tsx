@@ -31,11 +31,11 @@ const DeveloperDashboard = () => {
   const [devAgents, setDevAgents] = useState([]);
 
   useEffect(() => {
-    const devName = "something here";
+    const devName = localStorage.getItem("username");
     const fillAgents = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5173/api/repo/" + devName,
+          "http://172.16.46.46:8000/api/repo/" + devName,
           {
             method: "GET",
             headers: {
@@ -181,7 +181,7 @@ const DeveloperDashboard = () => {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-4">
-                      <div className="text-4xl">{agent.icon}</div>
+                      {/* <div className="text-4xl">{agent.icon}</div> */}
                       <div>
                         <CardTitle className="text-xl mb-2 text-white">
                           {agent.name}
@@ -189,7 +189,7 @@ const DeveloperDashboard = () => {
                         <CardDescription className="text-base text-slate-300">
                           {agent.shortDescription}
                         </CardDescription>
-                        <div className="flex gap-2 mt-2">
+                        {/* <div className="flex gap-2 mt-2">
                           <Badge className="bg-cyan-500/80 text-white border-none">
                             {agent.category}
                           </Badge>
@@ -201,7 +201,7 @@ const DeveloperDashboard = () => {
                               {tag}
                             </Badge>
                           ))}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
 

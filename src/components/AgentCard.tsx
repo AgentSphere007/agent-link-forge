@@ -1,10 +1,16 @@
-import React from 'react';
-import { Agent } from '@/types/agent';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Star, Users } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Rocket } from 'lucide-react';
+import React from "react";
+import { Agent } from "@/types/agent";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Star, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Rocket } from "lucide-react";
 
 interface AgentCardProps {
   agent: Agent;
@@ -33,9 +39,9 @@ export const AgentCard: React.FC<AgentCardProps> = ({
         <div className="flex items-start justify-between">
           {/* icon circle */}
           <div className="flex items-center gap-4">
-            <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white shadow-[0_8px_30px_-12px_rgba(34,211,238,0.35)] text-2xl">
+            {/* <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white shadow-[0_8px_30px_-12px_rgba(34,211,238,0.35)] text-2xl">
               {agent.icon}
-            </div>
+            </div> */}
 
             <div>
               <CardTitle className="text-lg text-white">{agent.name}</CardTitle>
@@ -46,11 +52,11 @@ export const AgentCard: React.FC<AgentCardProps> = ({
           </div>
 
           {/* category badge */}
-          <div>
+          {/* <div>
             <Badge className="bg-cyan-500/80 text-white border-none text-xs px-3 py-1">
               {agent.category}
             </Badge>
-          </div>
+          </div> */}
         </div>
       </CardHeader>
 
@@ -67,7 +73,7 @@ export const AgentCard: React.FC<AgentCardProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        {/* <div className="flex flex-wrap gap-2">
           {agent.tags.slice(0, 3).map((tag) => (
             <Badge
               key={tag}
@@ -76,7 +82,7 @@ export const AgentCard: React.FC<AgentCardProps> = ({
               {tag}
             </Badge>
           ))}
-        </div>
+        </div> */}
 
         {/* Optional action buttons — rendered only when parent asks for them */}
         {(showRunButton || showGetButton) && (

@@ -60,26 +60,20 @@ const CreateAgent = () => {
       .filter(Boolean);
 
     const newAgent = {
-      id: crypto.randomUUID(), // or leave id empty if backend generates it
-      name: formData.name,
-      icon: formData.icon,
-      category: formData.category,
-      link: formData.link,
-      shortDescription: formData.shortDescription,
-      description: formData.description,
-      createdBy: "Current Developer", // you can replace this dynamically
-      rating: 0,
-      usageCount: 0,
-      tags: tagsArray,
-      isActive: true,
+      model_name: formData.name,
+      repo_url: formData.link,
+      short_description: formData.shortDescription,
+      createdBy: localStorage.getItem("username"), // you can replace this dynamically
       createdAt: new Date().toISOString(),
+      is_private: false,
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/repo/new", {
+      const response = await fetch("http://10.52.221.162:8000/api/repo/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
         body: JSON.stringify(newAgent),
       });
@@ -159,48 +153,6 @@ const CreateAgent = () => {
                 />
               </div>
 
-              {/* Icon */}
-              <div className="space-y-2">
-                <Label htmlFor="icon" className="text-slate-300">
-                  Icon (Emoji) *
-                </Label>
-                <Input
-                  id="icon"
-                  value={formData.icon}
-                  onChange={handleChange}
-                  placeholder="🤖"
-                  maxLength={2}
-                  required
-                  className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 focus:border-cyan-400 focus:ring-0"
-                />
-              </div>
-
-              {/* Category */}
-              <div className="space-y-2">
-                <Label htmlFor="category" className="text-slate-300">
-                  Category *
-                </Label>
-                <Select
-                  required
-                  onValueChange={handleCategoryChange}
-                  value={formData.category}
-                >
-                  <SelectTrigger className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 focus:border-cyan-400 focus:ring-0">
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#111524] text-slate-100 border border-slate-700">
-                    <SelectItem value="Data Management">
-                      Data Management
-                    </SelectItem>
-                    <SelectItem value="Communication">Communication</SelectItem>
-                    <SelectItem value="Security">Security</SelectItem>
-                    <SelectItem value="Analytics">Analytics</SelectItem>
-                    <SelectItem value="Automation">Automation</SelectItem>
-                    <SelectItem value="Marketing">Marketing</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
               {/* Repo Link */}
               <div className="space-y-2">
                 <Label htmlFor="link" className="text-slate-300">
@@ -226,37 +178,6 @@ const CreateAgent = () => {
                   value={formData.shortDescription}
                   onChange={handleChange}
                   placeholder="Brief one-line description"
-                  required
-                  className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:ring-0"
-                />
-              </div>
-
-              {/* Full Description */}
-              <div className="space-y-2">
-                <Label htmlFor="description" className="text-slate-300">
-                  Full Description *
-                </Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  placeholder="Detailed description of your agent's capabilities..."
-                  rows={6}
-                  required
-                  className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:ring-0"
-                />
-              </div>
-
-              {/* Tags */}
-              <div className="space-y-2">
-                <Label htmlFor="tags" className="text-slate-300">
-                  Tags (comma-separated) *
-                </Label>
-                <Input
-                  id="tags"
-                  value={formData.tags}
-                  onChange={handleChange}
-                  placeholder="AI, Automation, API"
                   required
                   className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:ring-0"
                 />

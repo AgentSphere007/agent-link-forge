@@ -1,15 +1,11 @@
 export interface Agent {
   id: string;
   name: string;
-  description: string;
   link:string;
   shortDescription: string;
-  category: string;
-  icon: string;
   createdBy: string;
   rating: number;
   usageCount: number;
-  tags: string[];
   isActive: boolean;
   createdAt: string;
 }
