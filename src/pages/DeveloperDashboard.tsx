@@ -26,7 +26,8 @@ import {
 
 const DeveloperDashboard = () => {
   const navigate = useNavigate();
-  const [agents, setAgents] = useState<Agent[]>(mockAgents.slice(0, 3));
+  // const [agents, setAgents] = useState<Agent[]>(mockAgents.slice(0, 3));
+  const [agents, setAgents] = useState<Agent[]>([]);
   const [deleteAgentId, setDeleteAgentId] = useState<string | null>(null);
   const [devAgents, setDevAgents] = useState([]);
 
@@ -34,12 +35,14 @@ const DeveloperDashboard = () => {
     const devName = localStorage.getItem("username");
     const fillAgents = async () => {
       try {
+        console.log("check devs");
         const response = await fetch(
-          "http://172.16.46.46:8000/api/repo/" + devName,
+          "http://10.52.221.162:8000/api/repo/" + devName,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
             },
           }
         );
@@ -129,13 +132,13 @@ const DeveloperDashboard = () => {
                 Total Users
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            {/* <CardContent>
               <div className="text-3xl font-bold text-white">
                 {agents
                   .reduce((sum, agent) => sum + agent.usageCount, 0)
                   .toLocaleString()}
               </div>
-            </CardContent>
+            </CardContent> */}
           </Card>
 
           <Card className="bg-slate-900/60 border border-cyan-400/20 shadow-[0_0_20px_rgba(0,255,255,0.1)] backdrop-blur-sm">
@@ -184,7 +187,7 @@ const DeveloperDashboard = () => {
                       {/* <div className="text-4xl">{agent.icon}</div> */}
                       <div>
                         <CardTitle className="text-xl mb-2 text-white">
-                          {agent.name}
+                          {agent.model_name}
                         </CardTitle>
                         <CardDescription className="text-base text-slate-300">
                           {agent.shortDescription}
@@ -207,22 +210,22 @@ const DeveloperDashboard = () => {
 
                     {/* Fixed Edit/Delete Buttons with Glow */}
                     <div className="flex gap-2">
-                      <Button
+                      {/* <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => handleEditAgent(agent.id)}
                         className="bg-slate-800/70 text-cyan-300 hover:bg-cyan-500/30 hover:shadow-[0_0_15px_3px_rgba(0,255,255,0.6)] border border-slate-700 rounded-lg transition-all duration-300"
-                        aria-label={`Edit ${agent.name}`}
+                        aria-label={`Edit ${agent.model_name}`}
                       >
                         <Edit className="h-4 w-4" />
-                      </Button>
+                      </Button> */}
 
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => setDeleteAgentId(agent.id)}
                         className="bg-slate-800/70 text-rose-400 hover:bg-rose-600/30 hover:shadow-[0_0_15px_3px_rgba(255,0,80,0.6)] border border-slate-700 rounded-lg transition-all duration-300"
-                        aria-label={`Delete ${agent.name}`}
+                        aria-label={`Delete ${agent.model_name}`}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -232,14 +235,14 @@ const DeveloperDashboard = () => {
 
                 <CardContent>
                   <div className="flex items-center gap-6 text-sm text-slate-400">
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                       <BarChart3 className="h-4 w-4 text-cyan-400" />
                       <span>{agent.usageCount.toLocaleString()} users</span>
-                    </div>
+                    </div> */}
                     <div>Rating: {agent.rating}/5.0</div>
-                    <div>
+                    {/* <div>
                       Created {new Date(agent.createdAt).toLocaleDateString()}
-                    </div>
+                    </div> */}
                   </div>
                 </CardContent>
               </Card>

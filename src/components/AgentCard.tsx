@@ -44,7 +44,9 @@ export const AgentCard: React.FC<AgentCardProps> = ({
             </div> */}
 
             <div>
-              <CardTitle className="text-lg text-white">{agent.name}</CardTitle>
+              <CardTitle className="text-lg text-white">
+                {agent.model_name}
+              </CardTitle>
               <CardDescription className="text-sm text-slate-300 mt-1 line-clamp-2">
                 {agent.shortDescription}
               </CardDescription>
@@ -67,10 +69,10 @@ export const AgentCard: React.FC<AgentCardProps> = ({
             <span className="font-medium text-white">{agent.rating}</span>
           </div>
 
-          <div className="flex items-center gap-2 text-slate-300">
+          {/* <div className="flex items-center gap-2 text-slate-300">
             <Users className="w-4 h-4 text-cyan-400" />
             <span>{agent.usageCount.toLocaleString()}</span>
-          </div>
+          </div> */}
         </div>
 
         {/* <div className="flex flex-wrap gap-2">
@@ -95,7 +97,7 @@ export const AgentCard: React.FC<AgentCardProps> = ({
                   e.stopPropagation();
                   onRun?.(agent);
                 }}
-                className="border border-cyan-500 text-cyan-300 hover:bg-cyan-500/10"
+                className="border border-cyan-500 text-cyan-300 bg-cyan-500/10 hover:bg-cyan-400"
               >
                 <Rocket className="h-4 w-4 mr-1" /> Run
               </Button>

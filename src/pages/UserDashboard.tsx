@@ -26,7 +26,7 @@ const UserDashboard = () => {
     setInstalledAgents(savedAgents);
     const fillAgents = async () => {
       try {
-        const response = await fetch("http://172.16.46.46:8000/api/repo/all", {
+        const response = await fetch("http://10.52.221.162:8000/api/repo/all", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -38,6 +38,7 @@ const UserDashboard = () => {
         }
 
         const data = await response.json();
+        console.log(data);
         setAcutalAgent(data);
       } catch (error) {
         console.error("Error fetching agents:", error);
@@ -46,8 +47,8 @@ const UserDashboard = () => {
     fillAgents();
   }, []);
 
-  const filteredAgents = mockAgents.filter((agent) =>
-    agent.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredAgents = actualAgent.filter((agent) =>
+    agent.model_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleAgentClick = (agent: Agent) => {
@@ -74,13 +75,13 @@ const UserDashboard = () => {
       console.error("Error fetching agents:", error);
     }
     if (alreadyInstalled) {
-      toast.warning(`"${agent.name}" is already installed.`);
+      toast.warning(`"${agent.model_name}" is already installed.`);
       return;
     }
     const updated = [...installedAgents, agent];
     setInstalledAgents(updated);
     localStorage.setItem("installedAgents", JSON.stringify(updated));
-    toast.success(`"${agent.name}" added to Installed Agents!`);
+    toast.success(`"${agent.model_name}" added to Installed Agents!`);
     setIsModalOpen(false);
   };
 

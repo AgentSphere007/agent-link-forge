@@ -1,13 +1,11 @@
 export interface Agent {
   id: string;
-  name: string;
+  model_name: string;
   link:string;
   shortDescription: string;
   createdBy: string;
   rating: number;
-  usageCount: number;
   isActive: boolean;
-  createdAt: string;
 }
 
 export interface User {

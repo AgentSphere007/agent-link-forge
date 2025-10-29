@@ -37,7 +37,7 @@ export const AgentDetailModal = ({
 
             <div className="flex-1">
               <DialogTitle className="text-2xl mb-1 text-white">
-                {agent.name}
+                {agent.model_name}
               </DialogTitle>
               <DialogDescription className="text-sm text-slate-300">
                 {agent.shortDescription}
@@ -59,9 +59,9 @@ export const AgentDetailModal = ({
             <div className="flex items-center gap-2 text-sm text-slate-200">
               <Users className="w-4 h-4 text-cyan-400" />
               <div>
-                <div className="font-medium text-white">
+                {/* <div className="font-medium text-white">
                   {agent.usageCount.toLocaleString()}
-                </div>
+                </div> */}
                 <div className="text-xs text-slate-400">Users</div>
               </div>
             </div>
@@ -70,9 +70,9 @@ export const AgentDetailModal = ({
               <Calendar className="w-4 h-4 text-indigo-300" />
               <div>
                 <div className="text-xs text-slate-400">Created</div>
-                <div className="font-medium text-white">
+                {/* <div className="font-medium text-white">
                   {new Date(agent.createdAt).toLocaleDateString()}
-                </div>
+                </div> */}
               </div>
             </div>
 

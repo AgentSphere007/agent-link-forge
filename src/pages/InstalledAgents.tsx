@@ -1,36 +1,41 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { AgentCard } from '@/components/AgentCard';
-import { Agent } from '@/types/agent';
-import { Home, ArrowLeft, Trash2 } from 'lucide-react';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { AgentCard } from "@/components/AgentCard";
+import { Agent } from "@/types/agent";
+import { Home, ArrowLeft, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 const InstalledAgents = () => {
   const navigate = useNavigate();
   const [installedAgents, setInstalledAgents] = useState<Agent[]>([]);
 
   useEffect(() => {
-    const savedAgents = JSON.parse(localStorage.getItem('installedAgents') || '[]');
+    const savedAgents = JSON.parse(
+      localStorage.getItem("installedAgents") || "[]"
+    );
     setInstalledAgents(savedAgents);
   }, []);
 
   const handleUninstall = (id: string) => {
     const updated = installedAgents.filter((agent) => agent.id !== id);
     setInstalledAgents(updated);
-    localStorage.setItem('installedAgents', JSON.stringify(updated));
-    toast.success('Agent successfully uninstalled.');
+    localStorage.setItem("installedAgents", JSON.stringify(updated));
+    toast.success("Agent successfully uninstalled.");
   };
 
   const handleRunAgent = (agent: Agent) => {
-    toast.info(`🚀 Running ${agent.name}...`);
+    toast.info(`🚀 Running ${agent.model_name}...`);
   };
 
   return (
-    <div style={{ backgroundColor: '#0b1120', minHeight: '100vh' }} className="text-slate-100">
+    <div
+      style={{ backgroundColor: "#0b1120", minHeight: "100vh" }}
+      className="text-slate-100"
+    >
       {/* Header */}
       <header
-        style={{ backgroundColor: 'rgba(9, 15, 30, 0.9)' }}
+        style={{ backgroundColor: "rgba(9, 15, 30, 0.9)" }}
         className="backdrop-blur-md border-b border-cyan-400/10 sticky top-0 z-20"
       >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -38,18 +43,20 @@ const InstalledAgents = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate('/user/dashboard')}
+              onClick={() => navigate("/user/dashboard")}
               className="bg-cyan-500/10 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/25 hover:text-cyan-200 rounded-lg transition-all"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <h1 className="text-2xl font-bold text-cyan-300">Installed Agents</h1>
+            <h1 className="text-2xl font-bold text-cyan-300">
+              Installed Agents
+            </h1>
           </div>
 
           <Button
             variant="outline"
             size="icon"
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="bg-cyan-500/10 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/25 hover:text-cyan-200 rounded-lg transition-all"
           >
             <Home className="h-5 w-5" />
