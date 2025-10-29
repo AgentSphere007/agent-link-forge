@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Sparkles, Zap, Shield } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+import { useEffect } from "react";
 
 const Home = () => {
   const navigate = useNavigate();

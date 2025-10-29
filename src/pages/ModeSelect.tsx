@@ -58,10 +58,10 @@ const ModeSelect = () => {
               <div className="w-24 h-24 bg-gradient-to-tr from-indigo-600 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_10px_40px_-15px_rgba(99,102,241,0.40)]">
                 <Code className="w-12 h-12 text-white" />
               </div>
-              <CardTitle className="text-2xl text-indigo-300">
+              <CardTitle className="text-2xl text-indigo-300 pb-3">
                 Developer Mode
               </CardTitle>
-              <CardDescription className="text-base text-slate-300">
+              <CardDescription className="text-base text-slate-300 pb-5">
                 Create and manage your own intelligent agents
               </CardDescription>
             </CardHeader>

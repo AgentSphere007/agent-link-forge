@@ -18,17 +18,30 @@ const Auth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  // State for login
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  // State for signup
+  const [signupName, setSignupName] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
+  const [signupUsername, setSignupUsername] = useState("");
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate authentication
     try {
-      const response = await fetch("http://localhost:5173/api/agents", {
+      const response = await fetch("http://10.52.221.162:8000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          username: loginEmail,
+          password: loginPassword,
+        }),
       });
 
       if (!response.ok) {
@@ -36,14 +49,18 @@ const Auth = () => {
       }
 
       const data = await response.json();
-    } catch (error) {
-      console.error("Error fetching agents:", error);
-    }
-    setTimeout(() => {
-      setIsLoading(false);
+      console.log("Login response:", data);
+      localStorage.setItem("token", data.token);
+
       toast.success("Login successful!");
-      navigate("/mode-select");
-    }, 1000);
+      window.location.reload();
+      // navigate("/mode-select");
+    } catch (error) {
+      console.error("Error logging in:", error);
+      toast.error("Login failed. Please check your credentials.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,28 +68,38 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5173/api/agents", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "http://10.52.221.162:8000/api/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: signupName,
+            username: signupUsername,
+            email: signupEmail,
+            password: signupPassword,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-    } catch (error) {
-      console.error("Error fetching agents:", error);
-    }
-
-    // Simulate signup
-    setTimeout(() => {
-      setIsLoading(false);
+      console.log("Signup response:", data);
+      localStorage.setItem("token", data.token);
       toast.success("Account created successfully!");
-      navigate("/mode-select");
-    }, 1000);
+      window.location.reload();
+      // navigate("/mode-select");
+    } catch (error) {
+      console.error("Error signing up:", error);
+      toast.error("Signup failed. Try again later.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -100,14 +127,17 @@ const Auth = () => {
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
 
+            {/* LOGIN */}
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">Username</Label>
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
+                    id="username"
+                    type="username"
+                    placeholder="Enter your username"
+                    value={loginEmail}
+                    onChange={(e) => setLoginEmail(e.target.value)}
                     required
                   />
                 </div>
@@ -117,6 +147,8 @@ const Auth = () => {
                     id="password"
                     type="password"
                     placeholder="••••••••"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
                     required
                   />
                 </div>
@@ -131,6 +163,7 @@ const Auth = () => {
               </form>
             </TabsContent>
 
+            {/* SIGNUP */}
             <TabsContent value="signup">
               <form onSubmit={handleSignup} className="space-y-4">
                 <div className="space-y-2">
@@ -139,6 +172,19 @@ const Auth = () => {
                     id="name"
                     type="text"
                     placeholder="John Doe"
+                    value={signupName}
+                    onChange={(e) => setSignupName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="name">UserName</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    placeholder="enter username"
+                    value={signupUsername}
+                    onChange={(e) => setSignupUsername(e.target.value)}
                     required
                   />
                 </div>
@@ -148,6 +194,8 @@ const Auth = () => {
                     id="signup-email"
                     type="email"
                     placeholder="you@example.com"
+                    value={signupEmail}
+                    onChange={(e) => setSignupEmail(e.target.value)}
                     required
                   />
                 </div>
@@ -157,6 +205,8 @@ const Auth = () => {
                     id="signup-password"
                     type="password"
                     placeholder="••••••••"
+                    value={signupPassword}
+                    onChange={(e) => setSignupPassword(e.target.value)}
                     required
                   />
                 </div>
