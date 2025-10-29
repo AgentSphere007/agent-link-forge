@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// src/pages/UserDashboard.tsx
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -15,10 +16,15 @@ const UserDashboard = () => {
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const filteredAgents = mockAgents.filter(agent =>
-    agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    agent.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    agent.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+  useEffect(() => {
+    console.log('[UserDashboard] mounted'); // <- confirm this appears in browser console
+  }, []);
+
+  const filteredAgents = mockAgents.filter(
+    (agent) =>
+      agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      agent.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      agent.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   const handleAgentClick = (agent: Agent) => {
@@ -32,9 +38,16 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div
+      // inline style to FORCE background color (cannot be overridden by external CSS tokens)
+      style={{ backgroundColor: '#0b1120', minHeight: '100vh' }}
+      className="text-slate-100"
+    >
       {/* Header */}
-      <header className="bg-card border-b shadow-sm sticky top-0 z-10">
+      <header
+        style={{ backgroundColor: 'rgba(9, 15, 30, 0.9)' }}
+        className="backdrop-blur-md border-b border-cyan-400/10 sticky top-0 z-20"
+      >
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -42,18 +55,26 @@ const UserDashboard = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate('/mode-select')}
+                className="bg-[#111524]/60 text-cyan-300 hover:bg-cyan-500/20 rounded-lg transition-all"
+                aria-label="Back to mode select"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
-              <h1 className="text-2xl font-bold">User Dashboard</h1>
+              <h1 className="text-2xl font-bold text-cyan-300">User Dashboard</h1>
             </div>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => navigate('/')}
-            >
-              <Home className="h-5 w-5" />
-            </Button>
+
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:block text-sm text-slate-300 mr-2">Welcome back ✨</div>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => navigate('/')}
+                className="bg-[#111524]/60 border border-slate-700 text-slate-100/90 hover:bg-cyan-500/10 rounded-lg transition-all"
+                aria-label="Go home"
+              >
+                <Home className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -62,13 +83,15 @@ const UserDashboard = () => {
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto mb-8">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
             <Input
               type="text"
               placeholder="Search agents by name, description, or tags..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              // inline style for input background to ensure it's visible
+              style={{ backgroundColor: 'rgba(15,23,42,0.6)', color: '#E6EEF3' }}
+              className="pl-10 border border-[#1f2937] placeholder:text-slate-400 focus:border-[#2dd4bf] focus:ring-0"
             />
           </div>
         </div>
@@ -76,19 +99,18 @@ const UserDashboard = () => {
         {/* Agents Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredAgents.map((agent) => (
-            <AgentCard
+            <div
               key={agent.id}
-              agent={agent}
-              onClick={() => handleAgentClick(agent)}
-            />
+              className="transform hover:-translate-y-1 hover:shadow-[0_20px_60px_-30px_rgba(34,211,238,0.12)] transition-all duration-300"
+            >
+              <AgentCard agent={agent} onClick={() => handleAgentClick(agent)} />
+            </div>
           ))}
         </div>
 
         {filteredAgents.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg">
-              No agents found matching your search.
-            </p>
+            <p className="text-slate-400 text-lg">No agents found matching your search.</p>
           </div>
         )}
       </div>
