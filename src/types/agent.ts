@@ -2,6 +2,7 @@ export interface Agent {
   id: string;
   name: string;
   description: string;
+  link:string;
   shortDescription: string;
   category: string;
   icon: string;

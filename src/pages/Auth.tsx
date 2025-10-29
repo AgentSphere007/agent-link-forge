@@ -1,12 +1,18 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { toast } from 'sonner';
-import { ArrowLeft } from 'lucide-react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+import { ArrowLeft } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -15,24 +21,57 @@ const Auth = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Simulate authentication
+    try {
+      const response = await fetch("http://localhost:5173/api/agents", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error fetching agents:", error);
+    }
     setTimeout(() => {
       setIsLoading(false);
-      toast.success('Login successful!');
-      navigate('/mode-select');
+      toast.success("Login successful!");
+      navigate("/mode-select");
     }, 1000);
   };
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
+    try {
+      const response = await fetch("http://localhost:5173/api/agents", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error fetching agents:", error);
+    }
+
     // Simulate signup
     setTimeout(() => {
       setIsLoading(false);
-      toast.success('Account created successfully!');
-      navigate('/mode-select');
+      toast.success("Account created successfully!");
+      navigate("/mode-select");
     }, 1000);
   };
 
@@ -41,7 +80,7 @@ const Auth = () => {
       <Button
         variant="ghost"
         className="absolute top-4 left-4 text-white hover:bg-white/10"
-        onClick={() => navigate('/')}
+        onClick={() => navigate("/")}
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Home
@@ -50,7 +89,9 @@ const Auth = () => {
       <Card className="w-full max-w-md shadow-elevated">
         <CardHeader>
           <CardTitle className="text-2xl">Welcome to AgentSphere</CardTitle>
-          <CardDescription>Sign in or create an account to continue</CardDescription>
+          <CardDescription>
+            Sign in or create an account to continue
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="login" className="w-full">
@@ -58,7 +99,7 @@ const Auth = () => {
               <TabsTrigger value="login">Login</TabsTrigger>
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
@@ -79,17 +120,17 @@ const Auth = () => {
                     required
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  variant="gradient" 
+                <Button
+                  type="submit"
+                  variant="gradient"
                   className="w-full"
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Logging in...' : 'Login'}
+                  {isLoading ? "Logging in..." : "Login"}
                 </Button>
               </form>
             </TabsContent>
-            
+
             <TabsContent value="signup">
               <form onSubmit={handleSignup} className="space-y-4">
                 <div className="space-y-2">
@@ -119,13 +160,13 @@ const Auth = () => {
                     required
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  variant="gradient" 
+                <Button
+                  type="submit"
+                  variant="gradient"
                   className="w-full"
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Creating account...' : 'Create Account'}
+                  {isLoading ? "Creating account..." : "Create Account"}
                 </Button>
               </form>
             </TabsContent>

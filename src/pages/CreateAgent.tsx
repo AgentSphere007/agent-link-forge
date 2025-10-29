@@ -1,54 +1,115 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
+} from "@/components/ui/select";
+import { ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
 
 const CreateAgent = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    console.log('[CreateAgent] mounted');
-  }, []);
+  // form data state
+  const [formData, setFormData] = useState({
+    name: "",
+    icon: "",
+    category: "",
+    link: "",
+    shortDescription: "",
+    description: "",
+    tags: "",
+  });
 
+  // handle form field change
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  // handle category select
+  const handleCategoryChange = (value: string) => {
+    setFormData({ ...formData, category: value });
+  };
+
+  // handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate agent creation
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success('Agent created successfully!');
-      navigate('/developer/dashboard');
-    }, 1500);
+    // convert comma-separated tags into array
+    const tagsArray = formData.tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+
+    const newAgent = {
+      id: crypto.randomUUID(), // or leave id empty if backend generates it
+      name: formData.name,
+      icon: formData.icon,
+      category: formData.category,
+      link: formData.link,
+      shortDescription: formData.shortDescription,
+      description: formData.description,
+      createdBy: "Current Developer", // you can replace this dynamically
+      rating: 0,
+      usageCount: 0,
+      tags: tagsArray,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+    };
+
+    //   try {
+    //     const response = await fetch("http://localhost:5000/api/agents", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(newAgent),
+    //     });
+
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+
+    //     toast.success("Agent created successfully!");
+    //     navigate("/developer/dashboard");
+    //   } catch (error) {
+    //     console.error("Error creating agent:", error);
+    //     toast.error("Failed to create agent. Please try again.");
+    //   } finally {
+    //     setIsLoading(false);
+    //   }
   };
+
+  useEffect(() => {
+    console.log("[CreateAgent] mounted");
+  }, []);
 
   return (
     <div
       className="min-h-screen text-slate-100"
-      style={{ backgroundColor: '#0b1120' }}
+      style={{ backgroundColor: "#0b1120" }}
     >
       {/* Header */}
       <header
-        style={{ backgroundColor: 'rgba(15,23,42,0.9)' }}
+        style={{ backgroundColor: "rgba(15,23,42,0.9)" }}
         className="backdrop-blur-md border-b border-cyan-400/10 sticky top-0 z-20"
       >
         <div className="container mx-auto px-4 py-4">
@@ -56,7 +117,7 @@ const CreateAgent = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate('/developer/dashboard')}
+              onClick={() => navigate("/developer/dashboard")}
               className="bg-[#111524]/60 text-cyan-300 hover:bg-cyan-500/20 rounded-lg transition-all"
             >
               <ArrowLeft className="h-5 w-5" />
@@ -72,7 +133,7 @@ const CreateAgent = () => {
       <div className="container mx-auto px-4 py-8 max-w-3xl">
         <Card
           className="bg-[#111524]/80 border border-cyan-400/10 shadow-[0_20px_60px_-30px_rgba(34,211,238,0.12)] text-slate-200"
-          style={{ backdropFilter: 'blur(10px)' }}
+          style={{ backdropFilter: "blur(10px)" }}
         >
           <CardHeader>
             <CardTitle className="text-cyan-300">Agent Details</CardTitle>
@@ -90,6 +151,8 @@ const CreateAgent = () => {
                 </Label>
                 <Input
                   id="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="e.g., DataSync Pro"
                   required
                   className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:ring-0"
@@ -103,6 +166,8 @@ const CreateAgent = () => {
                 </Label>
                 <Input
                   id="icon"
+                  value={formData.icon}
+                  onChange={handleChange}
                   placeholder="🤖"
                   maxLength={2}
                   required
@@ -115,19 +180,40 @@ const CreateAgent = () => {
                 <Label htmlFor="category" className="text-slate-300">
                   Category *
                 </Label>
-                <Select required>
+                <Select
+                  required
+                  onValueChange={handleCategoryChange}
+                  value={formData.category}
+                >
                   <SelectTrigger className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 focus:border-cyan-400 focus:ring-0">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111524] text-slate-100 border border-slate-700">
-                    <SelectItem value="data">Data Management</SelectItem>
-                    <SelectItem value="communication">Communication</SelectItem>
-                    <SelectItem value="security">Security</SelectItem>
-                    <SelectItem value="analytics">Analytics</SelectItem>
-                    <SelectItem value="automation">Automation</SelectItem>
-                    <SelectItem value="marketing">Marketing</SelectItem>
+                    <SelectItem value="Data Management">
+                      Data Management
+                    </SelectItem>
+                    <SelectItem value="Communication">Communication</SelectItem>
+                    <SelectItem value="Security">Security</SelectItem>
+                    <SelectItem value="Analytics">Analytics</SelectItem>
+                    <SelectItem value="Automation">Automation</SelectItem>
+                    <SelectItem value="Marketing">Marketing</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              {/* Repo Link */}
+              <div className="space-y-2">
+                <Label htmlFor="link" className="text-slate-300">
+                  GitHub / Repo Link *
+                </Label>
+                <Input
+                  id="link"
+                  value={formData.link}
+                  onChange={handleChange}
+                  placeholder="Enter the GitHub repo link"
+                  required
+                  className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:ring-0"
+                />
               </div>
 
               {/* Short Description */}
@@ -137,6 +223,8 @@ const CreateAgent = () => {
                 </Label>
                 <Input
                   id="shortDescription"
+                  value={formData.shortDescription}
+                  onChange={handleChange}
                   placeholder="Brief one-line description"
                   required
                   className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:ring-0"
@@ -150,6 +238,8 @@ const CreateAgent = () => {
                 </Label>
                 <Textarea
                   id="description"
+                  value={formData.description}
+                  onChange={handleChange}
                   placeholder="Detailed description of your agent's capabilities..."
                   rows={6}
                   required
@@ -164,6 +254,8 @@ const CreateAgent = () => {
                 </Label>
                 <Input
                   id="tags"
+                  value={formData.tags}
+                  onChange={handleChange}
                   placeholder="AI, Automation, API"
                   required
                   className="bg-[#0f172a]/60 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:ring-0"
@@ -178,19 +270,18 @@ const CreateAgent = () => {
                   className="flex-1"
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Creating...' : 'Create Agent'}
+                  {isLoading ? "Creating..." : "Create Agent"}
                 </Button>
 
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => navigate('/developer/dashboard')}
+                  onClick={() => navigate("/developer/dashboard")}
                   className="flex-1 border border-gray-400 text-foreground hover:bg-muted hover:text-foreground"
                 >
                   Cancel
                 </Button>
               </div>
-
             </form>
           </CardContent>
         </Card>

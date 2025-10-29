@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
-import { Sparkles, Zap, Shield } from 'lucide-react';
-import heroBanner from '@/assets/hero-banner.jpg';
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { Sparkles, Zap, Shield } from "lucide-react";
+import heroBanner from "@/assets/hero-banner.jpg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -21,34 +21,35 @@ const Home = () => {
         <div className="relative container mx-auto px-4 py-24 md:py-32">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight leading-tight">
-              Welcome to{' '}
+              Welcome to{" "}
               <span className="bg-gradient-to-r from-cyan-300 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
                 AgentSphere
               </span>
             </h1>
 
             <p className="text-lg md:text-xl text-slate-200/85 mb-8 leading-relaxed">
-              Discover, deploy, and manage intelligent agents that transform the way you work
+              Discover, deploy, and manage intelligent agents that transform the
+              way you work
             </p>
 
             <div className="flex items-center justify-center gap-4">
               <Button
                 variant="hero"
                 size="lg"
-                onClick={() => navigate('/auth')}
+                onClick={() => navigate("/auth")}
                 className="text-lg px-8 py-4 h-auto bg-gradient-to-r from-cyan-500 to-indigo-600 hover:scale-[1.02] transform transition-all duration-200 shadow-[0_8px_30px_-6px_rgba(56,189,248,0.25)]"
               >
                 Get Started
               </Button>
 
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="lg"
                 onClick={() => navigate('/about')}
                 className="text-lg px-6 py-4 h-auto border border-slate-700 text-slate-200/90 hover:bg-slate-800/60"
               >
                 Learn More
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
@@ -66,9 +67,12 @@ const Home = () => {
               <div className="w-16 h-16 bg-gradient-to-tr from-cyan-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_8px_30px_-12px_rgba(56,189,248,0.35)]">
                 <Sparkles className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-slate-100">Discover Agents</h3>
+              <h3 className="text-lg font-semibold mb-2 text-slate-100">
+                Discover Agents
+              </h3>
               <p className="text-slate-300">
-                Explore a curated marketplace of intelligent agents tailored to your needs.
+                Explore a curated marketplace of intelligent agents tailored to
+                your needs.
               </p>
             </div>
 
@@ -76,9 +80,12 @@ const Home = () => {
               <div className="w-16 h-16 bg-gradient-to-tr from-indigo-600 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_8px_30px_-12px_rgba(99,102,241,0.35)]">
                 <Zap className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-slate-100">Deploy Instantly</h3>
+              <h3 className="text-lg font-semibold mb-2 text-slate-100">
+                Deploy Instantly
+              </h3>
               <p className="text-slate-300">
-                Get your agents up and running in seconds with one-click activation.
+                Get your agents up and running in seconds with one-click
+                activation.
               </p>
             </div>
 
@@ -86,7 +93,9 @@ const Home = () => {
               <div className="w-16 h-16 bg-gradient-to-tr from-pink-600 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_8px_30px_-12px_rgba(236,72,153,0.35)]">
                 <Shield className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-slate-100">Enterprise Ready</h3>
+              <h3 className="text-lg font-semibold mb-2 text-slate-100">
+                Enterprise Ready
+              </h3>
               <p className="text-slate-300">
                 Built with security, scalability, and reliability at the core.
               </p>
@@ -107,7 +116,7 @@ const Home = () => {
           <Button
             variant="hero"
             size="lg"
-            onClick={() => navigate('/auth')}
+            onClick={() => navigate("/auth")}
             className="text-lg px-8 py-5 h-auto bg-gradient-to-r from-cyan-400 to-indigo-500 hover:scale-[1.02] shadow-[0_20px_50px_-20px_rgba(99,102,241,0.45)] transition-transform"
           >
             Start Your Journey

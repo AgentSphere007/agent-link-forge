@@ -1,18 +1,18 @@
 // src/pages/UserDashboard.tsx
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { AgentCard } from '@/components/AgentCard';
-import { AgentDetailModal } from '@/components/AgentDetailModal';
-import { mockAgents } from '@/data/mockAgents';
-import { Agent } from '@/types/agent';
-import { Search, Home, ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { AgentCard } from "@/components/AgentCard";
+import { AgentDetailModal } from "@/components/AgentDetailModal";
+import { mockAgents } from "@/data/mockAgents";
+import { Agent } from "@/types/agent";
+import { Search, Home, ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
 
 const UserDashboard = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [installedAgents, setInstalledAgents] = useState<Agent[]>([]);
@@ -21,13 +21,35 @@ const UserDashboard = () => {
   useEffect(() => {
     const savedAgents = JSON.parse(localStorage.getItem('installedAgents') || '[]');
     setInstalledAgents(savedAgents);
+    const fillAgents = async () => {
+      try {
+        const response = await fetch("http://localhost:5173/api/agents", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // setAgents(data);
+      } catch (error) {
+        console.error("Error fetching agents:", error);
+      }
+    };
+    fillAgents();
   }, []);
 
   const filteredAgents = mockAgents.filter(
     (agent) =>
       agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       agent.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      agent.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+      agent.tags.some((tag) =>
+        tag.toLowerCase().includes(searchQuery.toLowerCase())
+      )
   );
 
   const handleAgentClick = (agent: Agent) => {
@@ -53,7 +75,7 @@ const UserDashboard = () => {
     <div style={{ backgroundColor: '#0b1120', minHeight: '100vh' }} className="text-slate-100">
       {/* Header */}
       <header
-        style={{ backgroundColor: 'rgba(9, 15, 30, 0.9)' }}
+        style={{ backgroundColor: "rgba(9, 15, 30, 0.9)" }}
         className="backdrop-blur-md border-b border-cyan-400/10 sticky top-0 z-20"
       >
         <div className="container mx-auto px-4 py-4">
@@ -62,12 +84,14 @@ const UserDashboard = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => navigate('/mode-select')}
+                onClick={() => navigate("/mode-select")}
                 className="bg-[#111524]/60 text-cyan-300 hover:bg-cyan-500/20 rounded-lg transition-all"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
-              <h1 className="text-2xl font-bold text-cyan-300">User Dashboard</h1>
+              <h1 className="text-2xl font-bold text-cyan-300">
+                User Dashboard
+              </h1>
             </div>
 
             <div className="flex items-center gap-3">
@@ -130,7 +154,9 @@ const UserDashboard = () => {
 
         {filteredAgents.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-slate-400 text-lg">No agents found matching your search.</p>
+            <p className="text-slate-400 text-lg">
+              No agents found matching your search.
+            </p>
           </div>
         )}
       </div>

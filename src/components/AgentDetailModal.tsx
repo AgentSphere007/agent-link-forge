@@ -1,14 +1,14 @@
-import { Agent } from '@/types/agent';
+import { Agent } from "@/types/agent";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Star, Users, Calendar, Tag } from 'lucide-react';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Star, Users, Calendar, Tag } from "lucide-react";
 
 interface AgentDetailModalProps {
   agent: Agent | null;
@@ -17,7 +17,12 @@ interface AgentDetailModalProps {
   onActivate?: (agentId: string) => void;
 }
 
-export const AgentDetailModal = ({ agent, isOpen, onClose, onActivate }: AgentDetailModalProps) => {
+export const AgentDetailModal = ({
+  agent,
+  isOpen,
+  onClose,
+  onActivate,
+}: AgentDetailModalProps) => {
   if (!agent) return null;
 
   return (
@@ -31,7 +36,9 @@ export const AgentDetailModal = ({ agent, isOpen, onClose, onActivate }: AgentDe
             </div>
 
             <div className="flex-1">
-              <DialogTitle className="text-2xl mb-1 text-white">{agent.name}</DialogTitle>
+              <DialogTitle className="text-2xl mb-1 text-white">
+                {agent.name}
+              </DialogTitle>
               <DialogDescription className="text-sm text-slate-300">
                 {agent.shortDescription}
               </DialogDescription>
@@ -52,7 +59,9 @@ export const AgentDetailModal = ({ agent, isOpen, onClose, onActivate }: AgentDe
             <div className="flex items-center gap-2 text-sm text-slate-200">
               <Users className="w-4 h-4 text-cyan-400" />
               <div>
-                <div className="font-medium text-white">{agent.usageCount.toLocaleString()}</div>
+                <div className="font-medium text-white">
+                  {agent.usageCount.toLocaleString()}
+                </div>
                 <div className="text-xs text-slate-400">Users</div>
               </div>
             </div>
@@ -69,13 +78,17 @@ export const AgentDetailModal = ({ agent, isOpen, onClose, onActivate }: AgentDe
 
             <div className="flex items-center gap-2 text-sm">
               <Tag className="w-4 h-4 text-slate-300" />
-              <Badge className="bg-cyan-500/80 text-white border-none">{agent.category}</Badge>
+              <Badge className="bg-cyan-500/80 text-white border-none">
+                {agent.category}
+              </Badge>
             </div>
           </div>
 
           <div>
             <h3 className="font-semibold text-white mb-2">About this Agent</h3>
-            <p className="text-slate-300 leading-relaxed">{agent.description}</p>
+            <p className="text-slate-300 leading-relaxed">
+              {agent.description}
+            </p>
           </div>
 
           <div>
@@ -94,7 +107,8 @@ export const AgentDetailModal = ({ agent, isOpen, onClose, onActivate }: AgentDe
 
           <div className="pt-4 border-t border-slate-700/40">
             <p className="text-sm text-slate-300 mb-4">
-              Developed by <span className="font-medium text-white">{agent.createdBy}</span>
+              Developed by{" "}
+              <span className="font-medium text-white">{agent.createdBy}</span>
             </p>
 
             <div className="flex gap-3">

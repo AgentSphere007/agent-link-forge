@@ -1,25 +1,39 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
-import { mockAgents } from '@/data/mockAgents';
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
+import { mockAgents } from "@/data/mockAgents";
 
 const EditAgent = () => {
   const navigate = useNavigate();
   const { agentId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [agent, setAgent] = useState(() => mockAgents.find(a => a.id === agentId));
+  const [agent, setAgent] = useState(() =>
+    mockAgents.find((a) => a.id === agentId)
+  );
 
   useEffect(() => {
     if (!agent) {
-      toast.error('Agent not found');
-      navigate('/developer/dashboard');
+      toast.error("Agent not found");
+      navigate("/developer/dashboard");
     }
   }, [agent, navigate]);
 
@@ -30,8 +44,8 @@ const EditAgent = () => {
     // Simulate agent update
     setTimeout(() => {
       setIsLoading(false);
-      toast.success('Agent updated successfully!');
-      navigate('/developer/dashboard');
+      toast.success("Agent updated successfully!");
+      navigate("/developer/dashboard");
     }, 1500);
   };
 
@@ -46,7 +60,7 @@ const EditAgent = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate('/developer/dashboard')}
+              onClick={() => navigate("/developer/dashboard")}
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -59,19 +73,13 @@ const EditAgent = () => {
         <Card>
           <CardHeader>
             <CardTitle>Agent Details</CardTitle>
-            <CardDescription>
-              Update your agent's information
-            </CardDescription>
+            <CardDescription>Update your agent's information</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="name">Agent Name *</Label>
-                <Input
-                  id="name"
-                  defaultValue={agent.name}
-                  required
-                />
+                <Input id="name" defaultValue={agent.name} required />
               </div>
 
               <div className="space-y-2">
@@ -86,7 +94,10 @@ const EditAgent = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="category">Category *</Label>
-                <Select defaultValue={agent.category.toLowerCase().replace(' ', '')} required>
+                <Select
+                  defaultValue={agent.category.toLowerCase().replace(" ", "")}
+                  required
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -102,7 +113,12 @@ const EditAgent = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="shortDescription">Short Description *</Label>
+                <Label htmlFor="githubLink">Github Link</Label>
+                <Input id="githubLink" defaultValue={agent.link} required />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="shortDescription">Short Description</Label>
                 <Input
                   id="shortDescription"
                   defaultValue={agent.shortDescription}
@@ -124,7 +140,7 @@ const EditAgent = () => {
                 <Label htmlFor="tags">Tags (comma-separated) *</Label>
                 <Input
                   id="tags"
-                  defaultValue={agent.tags.join(', ')}
+                  defaultValue={agent.tags.join(", ")}
                   required
                 />
               </div>
@@ -136,12 +152,12 @@ const EditAgent = () => {
                   className="flex-1"
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Saving...' : 'Save Changes'}
+                  {isLoading ? "Saving..." : "Save Changes"}
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => navigate('/developer/dashboard')}
+                  onClick={() => navigate("/developer/dashboard")}
                 >
                   Cancel
                 </Button>

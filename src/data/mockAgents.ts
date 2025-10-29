@@ -5,6 +5,7 @@ export const mockAgents: Agent[] = [
     id: '1',
     name: 'DataSync Pro',
     description: 'Advanced data synchronization agent that seamlessly integrates with multiple databases and APIs. Offers real-time sync capabilities, conflict resolution, and comprehensive logging. Perfect for enterprise applications requiring consistent data across platforms.',
+    link:'https://',
     shortDescription: 'Real-time data synchronization across platforms',
     category: 'Data Management',
     icon: '🔄',
@@ -20,6 +21,7 @@ export const mockAgents: Agent[] = [
     name: 'SmartChat AI',
     description: 'Intelligent conversational agent powered by advanced natural language processing. Handles customer support, FAQs, and complex queries with human-like understanding. Includes sentiment analysis, multi-language support, and easy integration.',
     shortDescription: 'AI-powered customer support chatbot',
+    link:'https://',
     category: 'Communication',
     icon: '💬',
     createdBy: 'AI Innovations',
@@ -34,6 +36,7 @@ export const mockAgents: Agent[] = [
     name: 'SecureVault',
     description: 'Enterprise-grade security agent that monitors, protects, and encrypts sensitive data. Features include threat detection, automated backups, compliance reporting, and zero-trust architecture implementation.',
     shortDescription: 'Comprehensive security and encryption solution',
+    link:'https://',
     category: 'Security',
     icon: '🔒',
     createdBy: 'CyberShield Inc',
@@ -48,6 +51,7 @@ export const mockAgents: Agent[] = [
     name: 'Analytics Hub',
     description: 'Powerful analytics agent that transforms raw data into actionable insights. Provides real-time dashboards, predictive analytics, automated reports, and custom visualization tools for data-driven decision making.',
     shortDescription: 'Transform data into actionable insights',
+    link:'https://',
     category: 'Analytics',
     icon: '📊',
     createdBy: 'DataWise Labs',
@@ -62,6 +66,7 @@ export const mockAgents: Agent[] = [
     name: 'Workflow Automator',
     description: 'Streamline your business processes with this intelligent workflow automation agent. Creates custom workflows, handles approvals, sends notifications, and integrates with 100+ popular business tools.',
     shortDescription: 'Automate repetitive business workflows',
+    link:'https://',
     category: 'Automation',
     icon: '⚡',
     createdBy: 'ProcessFlow',
@@ -76,6 +81,7 @@ export const mockAgents: Agent[] = [
     name: 'ContentGen AI',
     description: 'Creative content generation agent that produces high-quality text, blog posts, social media content, and marketing copy. Uses advanced AI to match your brand voice and optimize for engagement.',
     shortDescription: 'AI-powered content creation assistant',
+    link:'https://',
     category: 'Marketing',
     icon: '✍️',
     createdBy: 'Creative Tech',
@@ -86,3 +92,5 @@ export const mockAgents: Agent[] = [
     createdAt: '2024-01-28'
   }
 ];
+
+
