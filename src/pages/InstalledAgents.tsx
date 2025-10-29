@@ -39,7 +39,7 @@ const InstalledAgents = () => {
               variant="ghost"
               size="icon"
               onClick={() => navigate('/user/dashboard')}
-              className="bg-[#111524]/60 text-cyan-300 hover:bg-cyan-500/20 rounded-lg transition-all"
+              className="bg-cyan-500/10 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/25 hover:text-cyan-200 rounded-lg transition-all"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -50,7 +50,7 @@ const InstalledAgents = () => {
             variant="outline"
             size="icon"
             onClick={() => navigate('/')}
-            className="bg-[#111524]/60 border border-slate-700 text-slate-100 hover:bg-cyan-500/10 rounded-lg"
+            className="bg-cyan-500/10 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/25 hover:text-cyan-200 rounded-lg transition-all"
           >
             <Home className="h-5 w-5" />
           </Button>
@@ -66,7 +66,7 @@ const InstalledAgents = () => {
                 key={agent.id}
                 className="bg-[#111827]/60 rounded-xl p-4 hover:shadow-[0_20px_60px_-30px_rgba(34,211,238,0.15)] transition-all duration-300"
               >
-                {/* Only one Run button (inside the AgentCard) */}
+                {/* Show Run button inside the card */}
                 <AgentCard
                   agent={agent}
                   showRunButton={true}
@@ -78,7 +78,7 @@ const InstalledAgents = () => {
                     onClick={() => handleUninstall(agent.id)}
                     variant="outline"
                     size="sm"
-                    className="border border-red-500 text-red-400 hover:bg-red-500/10 flex-1"
+                    className="bg-red-500/10 text-red-300 border border-red-500/50 hover:bg-red-500/25 hover:text-red-200 hover:border-red-400 flex-1 transition-all"
                   >
                     <Trash2 className="h-4 w-4 mr-2" /> Uninstall
                   </Button>
