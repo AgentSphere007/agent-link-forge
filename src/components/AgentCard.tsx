@@ -3,13 +3,27 @@ import { Agent } from '@/types/agent';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Star, Users } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Rocket } from 'lucide-react';
 
 interface AgentCardProps {
   agent: Agent;
-  onClick: () => void;
+  onClick?: () => void;
+  // action controls (optional)
+  showRunButton?: boolean;
+  showGetButton?: boolean;
+  onRun?: (agent: Agent) => void;
+  onGet?: (agent: Agent) => void;
 }
 
-export const AgentCard: React.FC<AgentCardProps> = ({ agent, onClick }) => {
+export const AgentCard: React.FC<AgentCardProps> = ({
+  agent,
+  onClick,
+  showRunButton = false,
+  showGetButton = false,
+  onRun,
+  onGet,
+}) => {
   return (
     <Card
       onClick={onClick}
@@ -63,6 +77,39 @@ export const AgentCard: React.FC<AgentCardProps> = ({ agent, onClick }) => {
             </Badge>
           ))}
         </div>
+
+        {/* Optional action buttons — rendered only when parent asks for them */}
+        {(showRunButton || showGetButton) && (
+          <div className="mt-4 flex gap-3">
+            {showRunButton && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRun?.(agent);
+                }}
+                className="border border-cyan-500 text-cyan-300 hover:bg-cyan-500/10"
+              >
+                <Rocket className="h-4 w-4 mr-1" /> Run
+              </Button>
+            )}
+
+            {showGetButton && (
+              <Button
+                variant="gradient"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onGet?.(agent);
+                }}
+                className="ml-auto"
+              >
+                Get Agent
+              </Button>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

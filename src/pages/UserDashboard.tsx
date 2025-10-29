@@ -15,9 +15,12 @@ const UserDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [installedAgents, setInstalledAgents] = useState<Agent[]>([]);
 
+  // Load installed agents
   useEffect(() => {
-    console.log('[UserDashboard] mounted'); // <- confirm this appears in browser console
+    const savedAgents = JSON.parse(localStorage.getItem('installedAgents') || '[]');
+    setInstalledAgents(savedAgents);
   }, []);
 
   const filteredAgents = mockAgents.filter(
@@ -32,17 +35,22 @@ const UserDashboard = () => {
     setIsModalOpen(true);
   };
 
-  const handleActivateAgent = (agentId: string) => {
-    toast.success('Agent activated successfully!');
+  const handleActivateAgent = (agent: Agent) => {
+    const alreadyInstalled = installedAgents.some((a) => a.id === agent.id);
+    if (alreadyInstalled) {
+      toast.warning(`"${agent.name}" is already installed.`);
+      return;
+    }
+
+    const updated = [...installedAgents, agent];
+    setInstalledAgents(updated);
+    localStorage.setItem('installedAgents', JSON.stringify(updated));
+    toast.success(`"${agent.name}" added to Installed Agents!`);
     setIsModalOpen(false);
   };
 
   return (
-    <div
-      // inline style to FORCE background color (cannot be overridden by external CSS tokens)
-      style={{ backgroundColor: '#0b1120', minHeight: '100vh' }}
-      className="text-slate-100"
-    >
+    <div style={{ backgroundColor: '#0b1120', minHeight: '100vh' }} className="text-slate-100">
       {/* Header */}
       <header
         style={{ backgroundColor: 'rgba(9, 15, 30, 0.9)' }}
@@ -56,7 +64,6 @@ const UserDashboard = () => {
                 size="icon"
                 onClick={() => navigate('/mode-select')}
                 className="bg-[#111524]/60 text-cyan-300 hover:bg-cyan-500/20 rounded-lg transition-all"
-                aria-label="Back to mode select"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
@@ -64,13 +71,20 @@ const UserDashboard = () => {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="hidden sm:block text-sm text-slate-300 mr-2">Welcome back ✨</div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate('/installed-agents')}
+                className="bg-[#111524]/60 border border-slate-700 text-slate-100 hover:bg-cyan-500/10 rounded-lg"
+              >
+                View Installed Agents
+              </Button>
+
               <Button
                 variant="outline"
                 size="icon"
                 onClick={() => navigate('/')}
-                className="bg-[#111524]/60 border border-slate-700 text-slate-100/90 hover:bg-cyan-500/10 rounded-lg transition-all"
-                aria-label="Go home"
+                className="bg-[#111524]/60 border border-slate-700 text-slate-100 hover:bg-cyan-500/10 rounded-lg"
               >
                 <Home className="h-5 w-5" />
               </Button>
@@ -79,6 +93,7 @@ const UserDashboard = () => {
         </div>
       </header>
 
+      {/* Body */}
       <div className="container mx-auto px-4 py-8">
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto mb-8">
@@ -89,7 +104,6 @@ const UserDashboard = () => {
               placeholder="Search agents by name, description, or tags..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              // inline style for input background to ensure it's visible
               style={{ backgroundColor: 'rgba(15,23,42,0.6)', color: '#E6EEF3' }}
               className="pl-10 border border-[#1f2937] placeholder:text-slate-400 focus:border-[#2dd4bf] focus:ring-0"
             />
@@ -101,9 +115,15 @@ const UserDashboard = () => {
           {filteredAgents.map((agent) => (
             <div
               key={agent.id}
-              className="transform hover:-translate-y-1 hover:shadow-[0_20px_60px_-30px_rgba(34,211,238,0.12)] transition-all duration-300"
+              className="relative transform hover:-translate-y-1 hover:shadow-[0_20px_60px_-30px_rgba(34,211,238,0.12)] transition-all duration-300 bg-[#111827]/60 rounded-xl p-4"
             >
-              <AgentCard agent={agent} onClick={() => handleAgentClick(agent)} />
+              {/* AgentCard with built-in Get button */}
+              <AgentCard
+                agent={agent}
+                onClick={() => handleAgentClick(agent)}
+                showGetButton={true}
+                onGet={(a) => handleActivateAgent(a)}
+              />
             </div>
           ))}
         </div>
@@ -119,7 +139,10 @@ const UserDashboard = () => {
         agent={selectedAgent}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onActivate={handleActivateAgent}
+        onActivate={(id) => {
+          const agent = mockAgents.find((a) => a.id === id);
+          if (agent) handleActivateAgent(agent);
+        }}
       />
     </div>
   );
